@@ -1,0 +1,356 @@
+:root {
+  /* --- Tab strip height & dimensions ---
+   * In 156, default horizontal tab height is 36px (compact: 29px, touch: 41px).
+   * 157 Nova reduced the tab height to 32px (compact: 28px).
+   * We restore the full 156 tab height, margin-block, and label sizing. */
+  --tab-min-height: 36px !important;
+  --tab-margin-block: 4px !important;
+  --tab-group-label-size: 24px !important;
+  --tab-group-label-container-size: var(--tab-group-label-size) !important;
+  --tabstrip-min-height: calc(var(--tab-min-height) + 2 * var(--tab-margin-block)) !important;
+  --tab-height-with-margin-padding: calc(5px + var(--tab-min-height) + (2 * var(--tab-margin-block))) !important;
+
+  /* Button size inside tab content (24px in 156, reduced to 20px in 157) */
+  --tab-content-button-size: 24px !important;
+  --tab-content-button-padding: 4px !important;
+
+  /* --- Design system border radii (Reverts "rounded corners" / pill shapes) ---
+   * 157 Nova introduced 24px border radii (--border-radius-xlarge), turning tabs,
+   * toolbar buttons, and the address bar into pill shapes, plus 12px/16px corners elsewhere.
+   * In 156 Proton, all toolbar elements use standard 4px / 8px radii. */
+  --border-radius-xsmall: 2px !important;
+  --border-radius-small: 4px !important;
+  --border-radius-medium: 8px !important;
+  --border-radius-large: 16px !important;
+  --border-radius-xlarge: 0px !important;
+
+  /* Specific component border radii */
+  --tab-border-radius: 4px !important;
+  --button-border-radius: 4px !important;
+  --toolbarbutton-border-radius: 4px !important;
+  --panel-menuitem-border-radius: 4px !important;
+
+  /* Urlbar & searchbar radii (4px in 156 Proton, not 24px pill shape) */
+  --urlbar-border-radius: 4px !important;
+  --urlbar-inner-border-radius: 4px !important;
+  --urlbarview-border-radius: 4px !important;
+  --urlbar-background-border-radius: 4px !important;
+  --urlbar-background-border-top-radius-open: 4px !important;
+
+  /* Window & content area corners (strictly 0px in 156 without Nova) */
+  --window-border-radius: 0px !important;
+  --chrome-block-radius: 0px !important;
+  --content-area-start-radius: 0px !important;
+  --sidebar-box-start-start-radius: 0px !important;
+  --sidebar-box-start-end-radius: 0px !important;
+
+  /* --- Chrome content separator ---
+   * 157 made this 50% translucent in Nova contexts. Restore solid 156 color. */
+  --chrome-content-separator-color: light-dark(rgb(201, 192, 227), rgb(63, 62, 66)) !important;
+
+  /* --- Tab colors & borders --- */
+  --tab-border: none !important;
+  --tab-border-color: transparent !important;
+  --tab-border-color-hover: transparent !important;
+  --tab-border-color-selected: transparent !important;
+  --tab-background-color: transparent !important;
+  --tab-box-shadow-selected: var(--box-shadow-level-1) !important;
+
+  --tab-text-color: var(--toolbox-text-color-current) !important;
+  --tab-text-color-hover: var(--toolbox-text-color-current) !important;
+  --tab-text-color-selected: var(--toolbar-text-color) !important;
+
+  /* Close button styling */
+  --tab-close-button-background-color: transparent !important;
+  --tab-close-button-border-color: transparent !important;
+  --tab-close-button-border-color-hover: transparent !important;
+  --tab-close-button-border-color-active: transparent !important;
+  --tab-close-button-background-color-hover: var(--button-background-color-ghost-hover) !important;
+  --tab-close-button-background-color-active: var(--button-background-color-ghost-active) !important;
+  --tab-close-button-text-color: inherit !important;
+  --tab-close-button-text-color-hover: inherit !important;
+  --tab-close-button-text-color-active: inherit !important;
+}
+
+:root[uidensity="compact"] {
+  --tab-min-height: 28px !important;
+  --tab-inline-padding: 0px !important;
+}
+
+:root[uidensity="touch"] {
+  --tab-min-height: 41px !important;
+  --tab-group-label-size: 27px !important;
+}
+
+/* Custom titlebar tokens */
+:root:where([customtitlebar]),
+:root[customtitlebar] {
+  --toolbox-background-color: ActiveCaption !important;
+  --toolbox-text-color: CaptionText !important;
+  --toolbox-background-color-inactive: InactiveCaption !important;
+  --toolbox-text-color-inactive: InactiveCaptionText !important;
+}
+
+/* Urlbar tokens (Proton / 156 look) */
+:root,
+.urlbar,
+#searchbar {
+  --chrome-box-shadow: rgba(0, 0, 0, 0.13) !important;
+  --urlbar-background-border: var(--urlbar-input-container-border-width) solid var(--toolbar-field-border-color) !important;
+  --urlbar-background-border-open: var(--urlbar-input-container-border-width) solid var(--panel-border-color) !important;
+  --urlbar-background-border-focused: var(--urlbar-background-border) !important;
+  --urlbar-background-box-shadow-open: 0 2px 14px var(--chrome-box-shadow) !important;
+  --urlbar-background-outline-focused: var(--focus-outline-width) solid var(--toolbar-field-border-color-focus) !important;
+  --urlbar-input-container-border: var(--urlbar-input-container-border-width) solid transparent !important;
+  --urlbar-input-container-outline-open: none !important;
+  --urlbar-input-container-outline-open-focused: none !important;
+  --urlbar-input-container-outline-offset-open: 0px !important;
+  --urlbar-input-growth-open-inline: var(--urlbar-margin-inline) !important;
+  --urlbar-input-growth-open-block: var(--urlbar-container-padding-block) !important;
+  --urlbar-searchmode-switcher-panel-list-min-width: auto !important;
+  --urlbar-background-overhang-open: 8px !important;
+  --urlbar-box-text-color-active: var(--urlbar-box-text-color-hover, inherit) !important;
+}
+
+
+/* tab bar and styling */
+
+/* Ensure tabs have the full 156 height and 4px corner radius */
+.tabbrowser-tab {
+  min-height: var(--tab-min-height) !important;
+  --button-border-radius: var(--border-radius-small, 4px) !important;
+}
+
+#tabbrowser-tabs {
+  --tab-min-height: 36px !important;
+  --tabstrip-min-height: calc(var(--tab-min-height) + 2 * var(--tab-margin-block)) !important;
+}
+
+:root[uidensity="compact"] #tabbrowser-tabs {
+  --tab-min-height: 29px !important;
+}
+
+:root[uidensity="touch"] #tabbrowser-tabs {
+  --tab-min-height: 41px !important;
+}
+
+/* Tab background geometry and colors */
+.tab-background {
+  border-radius: 4px !important;
+  min-height: var(--tab-min-height) !important;
+  margin-block: var(--tab-margin-block) !important;
+  border: none !important;
+  background-clip: unset !important;
+  outline-color: transparent !important;
+}
+
+.tab-background:not([selected], [multiselected]) {
+  background-color: transparent !important;
+}
+
+.tabbrowser-tab:hover > .tab-stack > .tab-background:not([selected], [multiselected]) {
+  background-color: var(--tab-background-color-hover) !important;
+}
+
+.tab-background:is([selected], [multiselected]) {
+  background-color: var(--tab-background-color-selected) !important;
+  background-image: none !important;
+  box-shadow: var(--tab-box-shadow-selected) !important;
+}
+
+/* Tab close button: 24px size, transparent base background, 4px radius */
+.tab-close-button {
+  width: 24px !important;
+  height: 24px !important;
+  padding: var(--tab-close-button-padding, 4px) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  outline-color: transparent !important;
+  border: none !important;
+}
+
+.tab-close-button:hover {
+  background-color: var(--button-background-color-ghost-hover) !important;
+}
+
+.tab-close-button:hover:active {
+  background-color: var(--button-background-color-ghost-active) !important;
+}
+
+/* Close button squeeze on non-hovered tabs */
+.tabbrowser-tab:not([labelendaligned], [tab-note], :hover) > .tab-stack > .tab-content > .tab-close-button {
+  padding-inline-start: 0 !important;
+  width: 18px !important;
+}
+
+/* Close button on selected tab */
+.tabbrowser-tab[selected] > .tab-stack > .tab-background {
+  --close-button-extra-background: transparent !important;
+}
+
+/* Tab sound / audio indicator border (revert 157 audio icon border) */
+.tab-icon-sound {
+  border: none !important;
+}
+
+/* Tab content containment reflow revert */
+.tab-content {
+  contain: unset !important;
+  contain-intrinsic-block-size: unset !important;
+}
+
+/* All tabs button icon: 156 used tabs.svg and arrow-down.svg on TabsToolbar */
+#alltabs-button {
+  list-style-image: url("chrome://browser/skin/tabs.svg") !important;
+}
+#TabsToolbar #alltabs-button {
+  list-style-image: url("chrome://global/skin/icons/arrow-down.svg") !important;
+}
+
+/* toolbar buttons and urlbar corners */
+
+/* Toolbar buttons: 4px corner radius instead of 24px pill shape */
+.toolbarbutton-1,
+toolbarbutton,
+#TabsToolbar toolbarbutton,
+#nav-bar toolbarbutton,
+#alltabs-button {
+  --toolbarbutton-border-radius: 4px !important;
+  border-radius: 4px !important;
+}
+
+/* Address bar & search bar: 4px corner radius */
+.urlbar,
+.urlbar-background,
+.urlbarView-background,
+.urlbar-input-container,
+#searchbar {
+  --urlbar-border-radius: 4px !important;
+  border-radius: 4px !important;
+}
+
+/* Ensure input container border is transparent (156 proton layout) */
+.urlbar-input-container {
+  border: var(--urlbar-input-container-border) !important;
+}
+
+/* Line-height matching 156 Proton */
+.urlbar-input {
+  line-height: calc(var(--urlbar-height) - 2 * var(--urlbar-input-container-border-width)) !important;
+}
+
+/* Searchbar Proton styling */
+#searchbar {
+  outline: none !important;
+  padding-inline-end: 0 !important;
+  border: var(--urlbar-input-container-border) !important;
+}
+
+#searchbar:focus-within {
+  outline: var(--focus-outline) !important;
+  outline-color: var(--toolbar-field-border-color-focus) !important;
+  border-color: transparent !important;
+}
+
+/* Identity block active-state color */
+#identity-box:active,
+#tracking-protection-icon-container:active {
+  color: var(--urlbar-box-text-color-hover, inherit) !important;
+}
+
+/* Urlbar dropdown separator line from 156 Proton */
+.urlbarView-body-inner {
+  #urlbar[open] > .urlbarView > .urlbarView-body-outer > & {
+    border-top: 1px solid var(--urlbarview-separator-color) !important;
+  }
+}
+
+/* Private browsing indicator button in nav-bar:
+ * In 156, hidden when Nova was disabled. Restore hidden state. */
+.private-browsing-indicator-button {
+  display: none !important;
+}
+
+
+ /* content area, sidebar & panels - remove rounding */
+
+/* Remove rounded corners from browser content area, sidebar, and panels */
+.browserContainer,
+.browserSidebarContainer,
+#tabbrowser-tabpanels,
+#tabbrowser-tabpanels > :not(.split-view-panel) .browserContainer,
+.split-view-panel > .browserContainer,
+#tabbrowser-tabbox,
+#sidebar-box,
+#sidebar-box #sidebar,
+#sidebar {
+  border-radius: 0 !important;
+}
+
+/* Split-view panel border */
+.tabbrowser-tabpanel:not([selected]):not([split-view-active]) {
+  border: var(--border-width) solid var(--chrome-content-separator-color) !important;
+  border-radius: 0 !important;
+  outline: none !important;
+}
+
+/* Ctrl+Tab panel canvas styling */
+#ctrlTab-panel .ctrlTab-canvas {
+  background-color: #f9f9fa !important;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+}
+
+/* Share panel device subview width */
+#share-panel-deviceView {
+  max-width: 40em !important;
+}
+
+/* Sidebar panel border in fullscreen */
+:root:is([inDOMFullscreen], [inFullscreen]) .sidebar-panel {
+  border: none !important;
+}
+
+/* Menu items: 4px corner radius instead of Nova's 16px */
+menupopup > menuitem,
+menupopup > menu,
+.panel-subview-body > toolbarbutton,
+.sidebar-panel menupopup > menuitem,
+.sidebar-panel menupopup > menu {
+  --panel-menuitem-border-radius: 4px !important;
+  border-radius: 4px !important;
+  padding: var(--menuitem-padding, var(--menuitem-padding-block) var(--menuitem-padding-inline)) !important;
+}
+
+/* Autocomplete payment card icon sizing */
+#PopupAutoComplete richlistitem[type="payment"] > autocomplete-row-item {
+  --icon-height: var(--icon-size-medium) !important;
+  --icon-width: var(--icon-size-large) !important;
+}
+
+/* some fixes for vertical tabs */
+
+#vertical-tabs {
+  --tab-inner-inline-margin: var(--space-medium) !important;
+}
+
+#vertical-tabs[uidensity="compact"] {
+  --tab-inner-inline-margin: 7px !important;
+}
+
+#vertical-tabs .tabbrowser-tab {
+  --tab-min-height: 24px !important;
+}
+
+#vertical-tabs:not([expanded]) .tab-close-button {
+  width: 15px !important;
+  height: 15px !important;
+  padding: 3.5px !important;
+  --close-button-extra-background: transparent !important;
+  box-shadow: var(--tab-box-shadow-selected) !important;
+}
+
+#sidebar-launcher {
+  --sidebar-launcher-button-padding-inline: unset !important;
+}
